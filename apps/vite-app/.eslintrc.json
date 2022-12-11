@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json.schemastore.org/eslintrc",
+    "root": true,
+    "extends": ["custom", "plugin:react/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./apps/vite-app/tsconfig.json",
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": { "react/prop-types": "off", "react/react-in-jsx-scope": "off" },
+    "plugins": ["react", "@typescript-eslint"],
+    "env": { "browser": true }
+}
