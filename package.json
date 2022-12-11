@@ -9,7 +9,7 @@
     "main": "index.js",
     "scripts": {
         "build": "turbo run build",
-        "dev": "turbo run dev --parallel"
+        "dev": "turbo run dev"
     },
     "keywords": [],
     "author": "",

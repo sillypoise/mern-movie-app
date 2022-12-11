@@ -973,3 +973,8 @@ var {
   outline-offset: var(--space-3xs);
   outline-color: var(--debug-color, var(--neutral-on-surface-0));
 }
+
+.mbs-xl {
+  -webkit-margin-before: var(--space-xl);
+          margin-block-start: var(--space-xl);
+}

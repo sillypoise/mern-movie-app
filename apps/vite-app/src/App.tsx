@@ -3,12 +3,19 @@ import { useEffect, useState } from "react";
 function App() {
     const [data, setData] = useState("hello");
 
+    useEffect(() => {
+        fetch("http://localhost:8000/health")
+            .then((res) => res.json())
+            .then((data) => setData(data));
+    }, []);
+
     return (
-        <div>
-            <h1>React App</h1>
-            <p>testing</p>
-            <p>{data}</p>
-        </div>
+        <main className="center mbs-xl">
+            <article>
+                <h1>React</h1>
+                <p>{data}</p>
+            </article>
+        </main>
     );
 }
 
