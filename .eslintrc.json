@@ -1,6 +1,9 @@
 {
     "root": true,
     // This tells ESLint to load the config from the package `eslint-config-custom`
+    "env": {
+        "es2021": true
+    },
     "extends": ["custom"],
     "parser": "@typescript-eslint/parser",
     "settings": {

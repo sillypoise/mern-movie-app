@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/eslintrc",
+    "root": true,
+    "extends": ["custom", "plugin:node/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./apps/movies-api/tsconfig.json",
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "node/no-unsupported-features/es-syntax": "off"
+    },
+    "settings": {
+        "node": {
+            "tryExtensions": [".js", ".json", ".node", ".ts"]
+        }
+    },
+    "plugins": ["react", "@typescript-eslint"],
+    "env": { "node": true }
+}
