@@ -1,11 +1,15 @@
 import { hash } from "argon2";
 import type { Request, Response } from "express";
-import { createUser } from "../../models/user.model";
-import { userSchema } from "../../services/db/dbSchema";
+import { createUser, getUserByEmail } from "../../models/user.model";
+import { userWithPasswordSchema } from "../../services/db/dbSchema";
 
 async function httpCreateUser(req: Request, res: Response) {
     try {
-        const userBody = userSchema.parse(req.body);
+        const userBody = userWithPasswordSchema.parse(req.body);
+        const userExists = await getUserByEmail(userBody.email);
+        if (Object.prototype.hasOwnProperty.call(userExists, "email")) {
+            return res.status(200).json("user already exists");
+        }
         const hashedPassword = await hash(userBody.password);
         await createUser({ ...userBody, password: hashedPassword });
         return res.status(200).json("user created");

@@ -1,11 +1,15 @@
 import { mdb } from "../services/db/db";
-import { type IUserSchema } from "../services/db/dbSchema";
+import {
+    IUserWithPasswordSchema,
+    userSchema,
+    type IUserSchema,
+} from "../services/db/dbSchema";
 
-async function createUser(user: IUserSchema) {
+async function createUser(user: IUserWithPasswordSchema) {
     try {
         await mdb.connect();
         const db = mdb.db("movie_app");
-        const userTable = db.collection<IUserSchema>("user");
+        const userTable = db.collection<IUserWithPasswordSchema>("user");
         const res = await userTable
             .insertOne({
                 name: user.name,
@@ -23,4 +27,23 @@ async function createUser(user: IUserSchema) {
     }
 }
 
-export { createUser };
+async function getUserByEmail(email: IUserWithPasswordSchema["password"]) {
+    try {
+        await mdb.connect();
+        const db = mdb.db("movie_app");
+        const userTable = db.collection<IUserSchema>("user");
+        const res = await userTable.findOne({
+            email,
+        });
+        if (!res) return { error: "couldn't find user" };
+        const user = userSchema.parse(res);
+        return user;
+    } catch (err) {
+        console.dir(err);
+        return { error: err };
+    } finally {
+        await mdb.close();
+    }
+}
+
+export { createUser, getUserByEmail };
