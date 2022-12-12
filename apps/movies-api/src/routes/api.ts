@@ -1,10 +1,10 @@
 import express from "express";
 // import { barRouter } from "./bar/bar.router";
-import { fooRouter } from "./foo/foo.router";
+import { userRouter } from "./user/user.router";
 
 const api = express.Router();
 
-api.use("/foo", fooRouter);
+api.use("/user", userRouter);
 // api.use("/bar", barRouter);
 
 export { api };

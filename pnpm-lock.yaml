@@ -10,6 +10,9 @@ importers:
       prettier: ^2.8.1
       prettier-plugin-tailwindcss: ^0.2.1
       turbo: latest
+      zod: ^3.20.0
+    dependencies:
+      zod: 3.20.0
     devDependencies:
       eslint: 8.29.0
       eslint-config-custom: link:packages/eslint-config-custom
@@ -4365,3 +4368,7 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod/3.20.0:
+    resolution: {integrity: sha512-ZWxs7oM5ixoo1BMoxTNeDMYSih/F/FUnExsnRtHT04rG6q0Bd74TKS45RGXw07TOalOZyyzdKaYH38k8yTEv9A==}
+    dev: false

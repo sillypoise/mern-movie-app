@@ -9,11 +9,23 @@
         "sourceType": "module"
     },
     "rules": {
-        "node/no-unsupported-features/es-syntax": "off"
+        "node/no-unsupported-features/es-syntax": "off",
+        "node/no-extraneous-import": [
+            "error",
+            {
+                "allowModules": ["zod"]
+            }
+        ],
+        "@typescript-eslint/no-misused-promises": [
+            "error",
+            {
+                "checksVoidReturn": false
+            }
+        ]
     },
     "settings": {
         "node": {
-            "tryExtensions": [".js", ".json", ".node", ".ts"]
+            "tryExtensions": [".js", ".json", ".node", ".ts", ".d.ts"]
         }
     },
     "plugins": ["react", "@typescript-eslint"],
