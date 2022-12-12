@@ -14,7 +14,7 @@ describe("POST /user/create", () => {
                 email: "test@example.com",
                 password: "testpassword",
             });
-            expect(res.statusCode).toEqual(200);
+            expect(res.statusCode).toEqual(201);
         });
     });
 });
