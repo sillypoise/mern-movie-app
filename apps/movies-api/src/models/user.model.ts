@@ -1,26 +1,23 @@
-import { mdb } from "../services/db";
-import type { IUser } from "../services/dbSchema";
+import { mdb } from "../services/db/db";
+import { type IUserSchema } from "../services/db/dbSchema";
 
-const db = [1, 2, 3, 4, 5];
-
-function getAllFoo() {
-    const fooValues = { ...db };
-    return fooValues;
-}
-
-async function createUser() {
+async function createUser(user: IUserSchema) {
     try {
         await mdb.connect();
-        const db = mdb.db("user");
-        const user = db.collection<IUser>("user");
-        const res = await user
+        const db = mdb.db("movie_app");
+        const userTable = db.collection<IUserSchema>("user");
+        const res = await userTable
             .insertOne({
-                name: "sillypoise",
-                email: "me@example.com",
-                password: "supahsecret",
+                name: user.name,
+                email: user.email,
+                password: user.password,
             })
             .catch((err) => console.log(err));
-        console.log(`user inserted with _id:${res.insertedId} `);
+        console.log(res);
+
+        if (res) {
+            console.log(`user inserted with _id:${res.insertedId} `); // eslint-disable-line
+        }
     } catch (err) {
         console.dir(err);
     } finally {
@@ -28,4 +25,4 @@ async function createUser() {
     }
 }
 
-export { getAllFoo, createUser };
+export { createUser };

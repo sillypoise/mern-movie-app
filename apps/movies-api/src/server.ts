@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { createServer } from "http";
 import { app } from "./app";
-import { dbConnect, mdb } from "./services/db";
+import { dbConnect, mdb } from "./services/db/db";
 
 dotenv.config();
 
