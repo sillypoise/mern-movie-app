@@ -13,8 +13,6 @@ async function createUser(user: IUserSchema) {
                 password: user.password,
             })
             .catch((err) => console.log(err));
-        console.log(res);
-
         if (res) {
             console.log(`user inserted with _id:${res.insertedId} `); // eslint-disable-line
         }
