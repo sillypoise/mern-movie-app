@@ -13,7 +13,7 @@
         "node/no-extraneous-import": [
             "error",
             {
-                "allowModules": ["zod"]
+                "allowModules": ["zod", "vitest"]
             }
         ],
         "@typescript-eslint/no-misused-promises": [
