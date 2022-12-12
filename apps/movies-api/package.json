@@ -10,7 +10,8 @@
         "dev:swc": "swc src -d dist --watch",
         "dev:express": "nodemon ./dist/server.js",
         "build": "run-s \"build\"",
-        "build:swc": "swc src -d dist --minify"
+        "build:swc": "swc src -d dist --minify",
+        "test": "vitest --config ./vitest.config.ts"
     },
     "keywords": [],
     "author": "",
