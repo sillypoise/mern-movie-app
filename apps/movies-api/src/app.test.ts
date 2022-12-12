@@ -1,6 +1,6 @@
 import request from "supertest";
 import { describe, test, expect } from "vitest";
-import { app } from "../src/app";
+import { app } from "./app";
 
 describe("POST /health", () => {
     describe("health check", () => {
@@ -10,7 +10,7 @@ describe("POST /health", () => {
         });
         test("should respond with 200 status", async () => {
             const res = await request(app).get("/health");
-            expect(res.statusCode).toEqual(202);
+            expect(res.statusCode).toEqual(200);
         });
     });
 });
