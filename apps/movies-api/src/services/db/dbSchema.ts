@@ -3,6 +3,7 @@ import { z } from "zod";
 const userSchema = z.object({
     name: z.string(),
     email: z.string().email(),
+    verified: z.boolean().default(false),
 });
 
 const userWithPasswordSchema = z.object({
