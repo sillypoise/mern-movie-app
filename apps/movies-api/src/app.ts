@@ -1,8 +1,10 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import morgan from "morgan";
 import { api } from "./routes/api";
 
 const app = express();
+app.use(morgan("tiny")); //eslint-disable-line-no-eval
 app.use(cors());
 app.use(express.json());
 
