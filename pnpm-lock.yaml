@@ -43,6 +43,7 @@ importers:
       supertest: ^6.3.3
       tsconfig: workspace:*
       typescript: ^4.9.3
+      vite: ^4.0.0
     dependencies:
       argon2: 0.30.2
       cors: 2.8.5
@@ -63,6 +64,7 @@ importers:
       supertest: 6.3.3
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.4
+      vite: 4.0.0_@types+node@18.11.13
 
   apps/vite-app:
     specifiers:
