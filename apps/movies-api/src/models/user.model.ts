@@ -1,66 +1,51 @@
-import { ClientSession } from "mongodb";
-import { mdb } from "../services/db/db";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { db } from "../services/db";
 import {
-    IPasswordSchema,
+    IUserSchema,
     IUserWithPasswordSchema,
     userSchema,
-    type IUserSchema,
 } from "../services/db/dbSchema";
 
 async function createUser(user: IUserWithPasswordSchema) {
-    let session: ClientSession | null = null;
     try {
-        await mdb.connect();
-        session = mdb.startSession();
-        await session.withTransaction(async () => {
-            const userTable = mdb
-                .db("movie_app")
-                .collection<IUserSchema>("user");
-            const passwordTable = mdb
-                .db("movie_app")
-                .collection<IPasswordSchema>("password");
-
-            const resUser = await userTable.insertOne({
-                name: "Test",
-                email: "test@example.com",
-                verified: false,
+        const res = await db.user.create({
+            data: {
+                name: user.name,
+                email: user.email,
+                verified: user.verified,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-            });
-
-            if (resUser) {
-                console.log(`user inserted with _id:${resUser.insertedId} `); // eslint-disable-line
-
-                await passwordTable.insertOne({
-                    userId: resUser.insertedId,
-                    password: user.password,
-                });
-            }
+                password: {
+                    create: {
+                        password: user.password,
+                    },
+                },
+            },
         });
+
+        if (res) {
+            console.log(`user inserted with _id:${res.id} `); // eslint-disable-line
+            return userSchema.parse(res);
+            // return userSchema.parse(res);
+        }
     } catch (err) {
         console.dir(err);
-    } finally {
-        if (session) await session.endSession();
-        await mdb.close();
     }
 }
 
-async function getUserByEmail(email: IUserWithPasswordSchema["password"]) {
+async function getUserByEmail(
+    email: IUserWithPasswordSchema["password"]
+): Promise<IUserSchema | PrismaClientKnownRequestError> {
     try {
-        await mdb.connect();
-        const db = mdb.db("movie_app");
-        const userTable = db.collection<IUserSchema>("user");
-        const res = await userTable.findOne({
-            email,
+        const res = await db.user.findFirstOrThrow({
+            where: {
+                email,
+            },
         });
-        if (!res) return { error: "couldn't find user" };
-        const user = userSchema.parse(res);
-        return user;
+
+        return userSchema.parse(res);
     } catch (err) {
-        console.dir(err);
-        return { error: err };
-    } finally {
-        await mdb.close();
+        return err as PrismaClientKnownRequestError;
     }
 }
 

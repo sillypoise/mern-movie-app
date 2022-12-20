@@ -1,13 +1,15 @@
 import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
-const MONGO_URI = process.env["MONGO_URI"];
+const MONGO_URI = process.env["DATABASE_URL"];
 
 if (typeof MONGO_URI !== "string") throw Error("Invalid database URI");
 
 const mdb = new MongoClient(MONGO_URI);
+const db = new PrismaClient();
 
 async function dbConnect(client: MongoClient) {
     try {
@@ -21,4 +23,4 @@ async function dbConnect(client: MongoClient) {
     }
 }
 
-export { dbConnect, mdb };
+export { dbConnect, mdb, db };

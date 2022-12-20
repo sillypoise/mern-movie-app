@@ -8,15 +8,25 @@ async function httpCreateUser(req: Request, res: Response) {
         const userBody = userWithPasswordSchema.parse(req.body);
         const userExists = await getUserByEmail(userBody.email);
         if (Object.prototype.hasOwnProperty.call(userExists, "email")) {
-            return res.status(400).json("user already exists");
+            return res.status(400).json({
+                message: "user already exists",
+                payload: userExists,
+            });
         }
-        // TODO: extract hash into separate hashing function, maybe into model
         const hashedPassword = await hash(userBody.password);
-        await createUser({ ...userBody, password: hashedPassword });
-        return res.status(201).json("user created");
+        const insertedUser = await createUser({
+            ...userBody,
+            password: hashedPassword,
+        });
+        return res.status(201).json({
+            message: "user succesfully created",
+            payload: insertedUser,
+        });
     } catch (err) {
         console.dir(err);
-        return res.status(400).json("error creating user");
+        return res
+            .status(400)
+            .json({ message: "error creating user", error: err });
     }
 }
 

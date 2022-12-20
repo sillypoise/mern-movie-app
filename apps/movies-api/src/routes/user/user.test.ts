@@ -15,6 +15,14 @@ describe("POST /user/create", () => {
                 password: "testpassword",
             });
             expect(res.statusCode).toEqual(201);
+            expect(res.body).toEqual({
+                message: "user succesfully created",
+                payload: {
+                    name: "testname",
+                    email: "test@example.com",
+                    verified: false,
+                },
+            });
         });
     });
 });
