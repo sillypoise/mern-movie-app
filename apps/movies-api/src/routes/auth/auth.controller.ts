@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import { createUser, getUserByEmail } from "../../models/user.model";
 import { userWithPasswordSchema } from "../../services/db/dbSchema";
 
-async function httpCreateUser(req: Request, res: Response) {
+async function httpSignUp(req: Request, res: Response) {
     try {
         const userBody = userWithPasswordSchema.parse(req.body);
         const userExists = await getUserByEmail(userBody.email);
@@ -30,4 +30,4 @@ async function httpCreateUser(req: Request, res: Response) {
     }
 }
 
-export { httpCreateUser };
+export { httpSignUp };
