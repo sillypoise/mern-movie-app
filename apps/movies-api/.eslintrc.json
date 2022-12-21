@@ -27,7 +27,8 @@
             {
                 "checksVoidReturn": false
             }
-        ]
+        ],
+        "@typescript-eslint/unbound-method": ["warning"]
     },
     "settings": {
         "node": {
