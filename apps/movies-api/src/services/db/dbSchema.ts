@@ -7,6 +7,11 @@ const userSchema = z.object({
     verified: z.boolean().default(false),
 });
 
+const userLoginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8),
+});
+
 const fullUserSchema = userSchema.extend({
     createdAt: z.date(),
     updatedAt: z.date(),
@@ -32,6 +37,7 @@ type IPasswordSchema = {
 export {
     userSchema,
     IUserSchema,
+    userLoginSchema,
     fullUserSchema,
     IFullUserSchema,
     userWithPasswordSchema,

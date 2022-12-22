@@ -1,12 +1,14 @@
-import express, { Request, Response } from "express";
-import { httpSignUp } from "./auth.controller";
+import express from "express";
+import { requireUserSession } from "../../middleware/session.middleware";
+import { httpLogin, httpSignUp } from "./auth.controller";
 
 const authRouter = express.Router();
 
-authRouter.post("/signup", httpSignUp);
-authRouter.get("/login", async (req: Request, res: Response) => {
-    return res.json("login route");
-});
-authRouter.get("/health", (req, res) => res.json("auth alive"));
+authRouter.post("/sign-up", httpSignUp);
+authRouter.get("/login", (req, res) => res.json("please login"));
+authRouter.post("/login", httpLogin);
+authRouter.get("/secret", requireUserSession, (req, res) =>
+    res.json("secret info!")
+);
 
 export { authRouter };

@@ -1,4 +1,6 @@
+import { Password } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { z } from "zod";
 import { db } from "../services/db";
 import {
     IUserSchema,
@@ -49,4 +51,28 @@ async function getUserByEmail(
     }
 }
 
-export { createUser, getUserByEmail };
+async function getPasswordByEmail(
+    email: IUserWithPasswordSchema["email"]
+): Promise<Password | PrismaClientKnownRequestError> {
+    try {
+        const res = await db.user.findFirstOrThrow({
+            where: {
+                email,
+            },
+            include: {
+                password: true,
+            },
+        });
+        return z
+            .object({
+                id: z.string(),
+                password: z.string(),
+                userId: z.string(),
+            })
+            .parse(res.password);
+    } catch (err) {
+        return err as PrismaClientKnownRequestError;
+    }
+}
+
+export { createUser, getUserByEmail, getPasswordByEmail };
