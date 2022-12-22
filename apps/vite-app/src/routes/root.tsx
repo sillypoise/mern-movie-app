@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { Link, Outlet, useLoaderData } from "react-router-dom";
 
-export default function Root() {
-    const [data, setData] = useState("hello");
+export async function loader() {
+    return { message: "weeeee" };
+}
 
-    useEffect(() => {
-        fetch("http://localhost:8000/health")
-            .then((res) => res.json())
-            .then((d) => console.log(d))
-            .catch((err) => console.log(err));
-    });
-
+function Root() {
+    const { message } = useLoaderData();
     return (
         <main className="center mbs-xl">
-            <article>
-                <h1>React</h1>
-                {/* <p>{data}</p> */}
-            </article>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/contact">Contact</Link>
+                    </li>
+                </ul>
+            </nav>
+            <pre>{message}</pre>
+            <Outlet />
         </main>
     );
 }
+
+export { Root };
