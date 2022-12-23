@@ -1,3 +1,5 @@
-# MERN Movie Review App
+# Monorepo with basic Auth
 
-An application for keeping track of and reviewing movies built on top of a MERN stack
+A monorepo with basic Auth functionality, including sessions with cookies.
+
+Very crude implementation with lots of wholes but sill learned a ton
