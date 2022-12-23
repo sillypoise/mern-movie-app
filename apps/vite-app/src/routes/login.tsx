@@ -1,4 +1,4 @@
-import { Form, LoaderFunctionArgs, useActionData } from "react-router-dom";
+import { Form, LoaderFunctionArgs, redirect } from "react-router-dom";
 import { z } from "zod";
 
 export async function action({ request }: LoaderFunctionArgs) {
@@ -12,7 +12,7 @@ export async function action({ request }: LoaderFunctionArgs) {
         email = z.string().parse(email);
         password = z.string().parse(password);
 
-        const val = await fetch("http://localhost:8000/v1/auth/login", {
+        const res = await fetch("http://localhost:8000/v1/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -22,16 +22,24 @@ export async function action({ request }: LoaderFunctionArgs) {
         })
             .then((res) => res.json())
             .catch((err) => console.log(err));
-
-        return {};
+        return res;
     } catch (err) {
         console.log(err);
     }
 }
 
-function Login() {
-    const test = useActionData();
+export async function loader({}: LoaderFunctionArgs) {
+    const res = await fetch("http://localhost:8000/v1/auth/login", {
+        credentials: "include",
+    }).then((res) => res.json());
 
+    if (res["message"] === "logged in") {
+        return redirect("/home");
+    }
+    return {};
+}
+
+function Login() {
     return (
         <article className="mlb-l center stack">
             <h2 className="text-3">Login</h2>

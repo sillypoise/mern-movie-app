@@ -1,11 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import { commitSession, getSession } from "../services/sessions";
 
-async function createUserSession(userId: string, req: Request, res: Response) {
+async function createUserSession(userId: string, _req: Request, res: Response) {
     let session = await getSession();
     session.set("userId", userId);
     res.append("Set-Cookie", await commitSession(session));
     return res.status(200).json("logged in");
+}
+
+async function hasUserSession(req: Request) {
+    const session = await getSession(req.headers.cookie);
+    const userSession = session.get("userId");
+    if (!userSession) return false;
+    return true;
 }
 
 async function requireUserSession(
@@ -21,4 +28,4 @@ async function requireUserSession(
     next();
 }
 
-export { createUserSession, requireUserSession };
+export { createUserSession, requireUserSession, hasUserSession };

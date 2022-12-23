@@ -1,7 +1,10 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { hash } from "argon2";
 import type { Request, Response } from "express";
-import { createUserSession } from "../../middleware/session.middleware";
+import {
+    createUserSession,
+    hasUserSession,
+} from "../../middleware/session.middleware";
 import {
     createUser,
     getPasswordByEmail,
@@ -40,6 +43,12 @@ async function httpSignUp(req: Request, res: Response) {
     }
 }
 
+async function httpLoginPOST(req: Request, res: Response) {
+    const hasSesssion = await hasUserSession(req);
+    if (hasSesssion) return res.json({ message: "logged in" });
+    return res.status(200).json({ message: "not logged in" });
+}
+
 async function httpLogin(req: Request, res: Response) {
     try {
         const loginBody = userLoginSchema.parse(req.body);
@@ -75,4 +84,4 @@ async function httpLogin(req: Request, res: Response) {
     }
 }
 
-export { httpSignUp, httpLogin };
+export { httpSignUp, httpLogin, httpLoginPOST };

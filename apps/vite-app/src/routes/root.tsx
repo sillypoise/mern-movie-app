@@ -11,6 +11,12 @@ function Root() {
             <nav>
                 <ul>
                     <li>
+                        <Link to="/auth/login">Login</Link>
+                    </li>
+                    <li>
+                        <Link to="/auth/sign-up">Sign-Up</Link>
+                    </li>
+                    <li>
                         <Link to="/contact">Contact</Link>
                     </li>
                 </ul>
