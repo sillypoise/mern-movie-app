@@ -3,7 +3,7 @@ import { userWithPasswordSchema } from "../services/db/dbSchema";
 
 function credentialsValidation(
     req: Request,
-    res: Response,
+    _res: Response,
     next: NextFunction
 ) {
     try {

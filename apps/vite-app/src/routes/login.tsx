@@ -1,4 +1,10 @@
-import { Form, LoaderFunctionArgs, redirect } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import {
+    Form,
+    LoaderFunctionArgs,
+    redirect,
+    useActionData,
+} from "react-router-dom";
 import { z } from "zod";
 
 export async function action({ request }: LoaderFunctionArgs) {
@@ -40,11 +46,21 @@ export async function loader({}: LoaderFunctionArgs) {
 }
 
 function Login() {
+    const loginFormRef = useRef<HTMLFormElement | null>(null);
+    const data = useActionData();
+
+    useEffect(() => {
+        if (data) loginFormRef.current?.reset();
+    }, [data]);
+
     return (
         <article className="mlb-l center stack">
             <h2 className="text-3">Login</h2>
-            <Form method="post">
+            <Form method="post" ref={loginFormRef}>
                 <fieldset className="stack items-start">
+                    {data ? (
+                        <p>There was an error signing up, try again</p>
+                    ) : null}
                     <label>
                         <input
                             required
@@ -59,6 +75,7 @@ function Login() {
                             name="password"
                             type="password"
                             placeholder="Password"
+                            minLength={8}
                         />
                     </label>
                     <button type="submit">Login</button>

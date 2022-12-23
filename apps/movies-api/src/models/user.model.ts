@@ -1,6 +1,5 @@
 import { Password } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { ObjectId } from "mongodb";
 import { z } from "zod";
 import { db } from "../services/db";
 import {
