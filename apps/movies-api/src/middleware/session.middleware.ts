@@ -15,6 +15,12 @@ async function hasUserSession(req: Request) {
     return true;
 }
 
+async function getUserSession(req: Request) {
+    const session = await getSession(req.headers.cookie);
+    const userSession = session.get("userId");
+    return userSession;
+}
+
 async function requireUserSession(
     req: Request,
     res: Response,
@@ -28,4 +34,9 @@ async function requireUserSession(
     next();
 }
 
-export { createUserSession, requireUserSession, hasUserSession };
+export {
+    createUserSession,
+    requireUserSession,
+    hasUserSession,
+    getUserSession,
+};

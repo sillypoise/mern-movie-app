@@ -3,12 +3,14 @@ import { hash } from "argon2";
 import type { Request, Response } from "express";
 import {
     createUserSession,
+    getUserSession,
     hasUserSession,
 } from "../../middleware/session.middleware";
 import {
     createUser,
     getPasswordByEmail,
     getUserByEmail,
+    getUserById,
 } from "../../models/user.model";
 import { validatePassword } from "../../services/argon2/argon2";
 import {
@@ -84,4 +86,24 @@ async function httpLogin(req: Request, res: Response) {
     }
 }
 
-export { httpSignUp, httpLogin, httpLoginPOST };
+async function httpSession(req: Request, res: Response) {
+    try {
+        const userSession = await getUserSession(req);
+        if (!userSession) {
+            throw new Error();
+        }
+        const user = await getUserById(userSession);
+
+        if (user instanceof PrismaClientKnownRequestError) {
+            throw new Error();
+        }
+
+        return res.status(200).json(user);
+    } catch (err) {
+        return res.status(400).json({
+            message: "user session not found",
+        });
+    }
+}
+
+export { httpSignUp, httpLogin, httpLoginPOST, httpSession };

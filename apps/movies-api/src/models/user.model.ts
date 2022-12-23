@@ -1,5 +1,6 @@
 import { Password } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { ObjectId } from "mongodb";
 import { z } from "zod";
 import { db } from "../services/db";
 import {
@@ -28,7 +29,6 @@ async function createUser(user: IUserWithPasswordSchema) {
         if (res) {
             console.log(`user inserted with _id:${res.id} `); // eslint-disable-line
             return userSchema.parse(res);
-            // return userSchema.parse(res);
         }
     } catch (err) {
         console.dir(err);
@@ -42,6 +42,21 @@ async function getUserByEmail(
         const res = await db.user.findFirstOrThrow({
             where: {
                 email,
+            },
+        });
+
+        return userSchema.parse(res);
+    } catch (err) {
+        return err as PrismaClientKnownRequestError;
+    }
+}
+async function getUserById(
+    userId: string
+): Promise<IUserSchema | PrismaClientKnownRequestError> {
+    try {
+        const res = await db.user.findFirstOrThrow({
+            where: {
+                id: userId,
             },
         });
 
@@ -75,4 +90,4 @@ async function getPasswordByEmail(
     }
 }
 
-export { createUser, getUserByEmail, getPasswordByEmail };
+export { createUser, getUserByEmail, getPasswordByEmail, getUserById };
