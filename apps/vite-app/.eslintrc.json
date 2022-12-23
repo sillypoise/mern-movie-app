@@ -11,7 +11,11 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "rules": { "react/prop-types": "off", "react/react-in-jsx-scope": "off" },
+    "rules": {
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/no-unsafe-assignment": ["warning"]
+    },
     "plugins": ["react", "@typescript-eslint"],
     "env": { "browser": true }
 }

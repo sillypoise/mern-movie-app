@@ -11,6 +11,8 @@ const { getSession, commitSession, destroySession } =
             name: "zesh",
             secrets: [COOKIE_SECRET],
             sameSite: "lax",
+            path: "/",
+            httpOnly: true,
         },
     });
 
