@@ -5,7 +5,7 @@ async function createUserSession(userId: string, _req: Request, res: Response) {
     let session = await getSession();
     session.set("userId", userId);
     res.append("Set-Cookie", await commitSession(session));
-    return res.status(200).json("logged in");
+    return res.status(201).json("logged in");
 }
 
 async function hasUserSession(req: Request) {

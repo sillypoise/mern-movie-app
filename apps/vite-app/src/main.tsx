@@ -9,6 +9,11 @@ import {
     action as loginAction,
 } from "./routes/login";
 import { Root, loader as rootLoader } from "./routes/root";
+import {
+    SignUp,
+    loader as signupLoader,
+    action as signupAction,
+} from "./routes/signUp";
 import "./styles/tailwind.css";
 
 const router = createBrowserRouter([
@@ -29,6 +34,12 @@ const router = createBrowserRouter([
         loader: loginLoader,
         action: loginAction,
         element: <Login />,
+    },
+    {
+        path: "/auth/sign-up",
+        loader: signupLoader,
+        action: signupAction,
+        element: <SignUp />,
     },
 ]);
 

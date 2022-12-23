@@ -27,7 +27,11 @@ async function createUser(user: IUserWithPasswordSchema) {
 
         if (res) {
             console.log(`user inserted with _id:${res.id} `); // eslint-disable-line
-            return userSchema.parse(res);
+            return userSchema
+                .extend({
+                    id: z.string(),
+                })
+                .parse(res);
         }
     } catch (err) {
         console.dir(err);

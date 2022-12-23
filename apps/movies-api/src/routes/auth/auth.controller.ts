@@ -1,6 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { hash } from "argon2";
 import type { Request, Response } from "express";
+import { z } from "zod";
 import {
     createUserSession,
     getUserSession,
@@ -19,6 +20,12 @@ import {
 } from "../../services/db/dbSchema";
 
 async function httpSignUp(req: Request, res: Response) {
+    const hasSesssion = await hasUserSession(req);
+    if (hasSesssion) return res.json({ message: "logged in" });
+    return res.status(200).json({ message: "not logged in" });
+}
+
+async function httpSignUpPOST(req: Request, res: Response) {
     try {
         const userBody = userWithPasswordSchema.parse(req.body);
         const userExists = await getUserByEmail(userBody.email);
@@ -33,10 +40,8 @@ async function httpSignUp(req: Request, res: Response) {
             ...userBody,
             password: hashedPassword,
         });
-        return res.status(201).json({
-            message: "user succesfully created",
-            payload: insertedUser,
-        });
+        const userId = z.string().parse(insertedUser?.id);
+        return createUserSession(userId, req, res);
     } catch (err) {
         console.dir(err);
         return res
@@ -45,13 +50,13 @@ async function httpSignUp(req: Request, res: Response) {
     }
 }
 
-async function httpLoginPOST(req: Request, res: Response) {
+async function httpLogin(req: Request, res: Response) {
     const hasSesssion = await hasUserSession(req);
     if (hasSesssion) return res.json({ message: "logged in" });
     return res.status(200).json({ message: "not logged in" });
 }
 
-async function httpLogin(req: Request, res: Response) {
+async function httpLoginPOST(req: Request, res: Response) {
     try {
         const loginBody = userLoginSchema.parse(req.body);
         const userExists = await getUserByEmail(loginBody.email);
@@ -106,4 +111,4 @@ async function httpSession(req: Request, res: Response) {
     }
 }
 
-export { httpSignUp, httpLogin, httpLoginPOST, httpSession };
+export { httpSignUp, httpSignUpPOST, httpLogin, httpLoginPOST, httpSession };
