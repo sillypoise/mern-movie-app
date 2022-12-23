@@ -70,16 +70,16 @@ function SignUp() {
             <h2 className="text-3">Sign Up</h2>
             <Form method="post" ref={signUpFormRef}>
                 <fieldset className="stack items-start">
-                    {/* {data ? (
+                    {data ? (
                         <p>There was an error signing up, try again</p>
-                    ) : null} */}
+                    ) : null}
                     <label>
                         <input
                             required
                             name="name"
                             type="text"
                             placeholder="Name"
-                            minLength={4}
+                            minLength={2}
                         />
                     </label>
                     <label>
