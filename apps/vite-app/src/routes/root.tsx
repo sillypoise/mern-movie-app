@@ -1,11 +1,25 @@
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import {
+    Link,
+    LoaderFunctionArgs,
+    Outlet,
+    redirect,
+    useLoaderData,
+} from "react-router-dom";
 
-export async function loader() {
-    return { message: "weeeee" };
+export async function loader({}: LoaderFunctionArgs) {
+    const res = await fetch("http://localhost:8000/v1/auth/session", {
+        credentials: "include",
+    }).then((res) => res.json());
+
+    if (res["message"]) {
+        return redirect("/auth/login");
+    }
+    return { user: res };
 }
 
 function Root() {
-    const { message } = useLoaderData();
+    const data = useLoaderData();
+
     return (
         <main className="center mbs-xl">
             <nav>
@@ -16,12 +30,9 @@ function Root() {
                     <li>
                         <Link to="/auth/sign-up">Sign-Up</Link>
                     </li>
-                    <li>
-                        <Link to="/contact">Contact</Link>
-                    </li>
                 </ul>
             </nav>
-            <pre>{message}</pre>
+            <pre>{JSON.stringify(data?.user, null, 4)}</pre>
             <Outlet />
         </main>
     );
